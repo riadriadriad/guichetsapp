@@ -1,39 +1,53 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import React, { createContext, useEffect, useState } from 'react'
+import { Slot } from 'expo-router'
+import * as RNFS from 'expo-file-system'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import {Asset} from 'expo-asset'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+const defaultValue:{guichets:Guichet[],setGuichets:any}={guichets:[] ,setGuichets:()=>{}}
+export const GuichetContext=createContext(defaultValue)
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import gchts from './../assets/guichets.json'
+const _layout = () => {
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+useEffect(
+    ()=>{
+          
+      const initialize=async()=>{ 
+       const fileKey = 'guichets'; 
+       const destinationPath = `${RNFS.documentDirectory}/guichets.json`;
+ 
+       try {
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+         const isStored = await AsyncStorage.getItem(fileKey);
+         const isImageStored = await AsyncStorage.getItem("icon");
+         if (!isStored) {
+          await RNFS.writeAsStringAsync(destinationPath,JSON.stringify(gchts.guichets));
+           await AsyncStorage.setItem(fileKey, 'true');
+         }
+         if (!isStored) {
+            await RNFS.writeAsStringAsync(destinationPath,JSON.stringify(gchts.guichets));
+             await AsyncStorage.setItem(fileKey, 'true');
+           }
+   
+       } catch (error) {
+         console.error('Error initializing file:', error);
+       } finally {
+       }}
+       initialize()
+       
+   }
+   ,[]
+)
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    <QueryClientProvider client={new QueryClient()} >
+        <Slot></Slot>
+    </QueryClientProvider>
+
+  )
 }
+
+export default _layout
+
+const styles = StyleSheet.create({})

@@ -1,0 +1,66 @@
+{
+    "guichets":[
+            {
+              "name": "Guichet 1",
+              "role": "Admin",
+              "state": "Active",
+              "favori": true
+            },
+            {
+              "name": "Guichet 2",
+              "role": "User",
+              "state": "Inactive",
+              "favori": false
+            },
+            {
+              "name": "Guichet 3",
+              "role": "Guest",
+              "state": "Pending",
+              "favori": true
+            },
+            {
+              "name": "Guichet 4",
+              "role": "User",
+              "state": "Active",
+              "favori": false
+            },
+            {
+              "name": "Guichet 5",
+              "role": "Admin",
+              "state": "Active",
+              "favori": true
+            },
+            {
+              "name": "Guichet 6",
+              "role": "Admin",
+              "state": "Inactive",
+              "favori": false
+            },
+            {
+              "name": "Guichet 7",
+              "role": "Guest",
+              "state": "Active",
+              "favori": true
+            },
+            {
+              "name": "Guichet 8",
+              "role": "User",
+              "state": "Pending",
+              "favori": false
+            },
+            {
+              "name": "Guichet 9",
+              "role": "Admin",
+              "state": "Inactive",
+              "favori": true
+            },
+            {
+              "name": "Guichet 10",
+              "role": "User",
+              "state": "Active",
+              "favori": true
+            }
+          
+          
+    ]
+}
